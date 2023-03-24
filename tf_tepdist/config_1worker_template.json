@@ -1,0 +1,9 @@
+{
+  "master" : {
+    "ip" : "<host ip>",
+    "port" : "<port>",
+    "gpu_ids" : "<local gpu id list>"
+  }
+}
+
+

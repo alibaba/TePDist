@@ -1,0 +1,26 @@
+{
+  "master" : {
+    "ip" : "<host1 ip>",
+    "port" : "<host1 port>",
+    "gpu_ids" : "<local gpu id list on host1>"
+  },
+  "workers" : [
+    {
+      "ip" : "<host2 ip>",
+      "port" : "<host2 port>",
+      "gpu_ids" : "<local gpu id list on host2>"
+    },
+    {
+      "ip" : "<host3 ip>",
+      "port" : "<host3 port>",
+      "gpu_ids" : "<local gpu id list on host3>"
+    },
+    {
+      "ip" : "<host4 ip>",
+      "port" : "<host4 port>",
+      "gpu_ids" : "<local gpu id list on host4>"
+    }
+  ]
+}
+
+

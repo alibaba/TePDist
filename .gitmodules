@@ -1,0 +1,3 @@
+[submodule "tf_community"]
+	path = tf_community
+	url = https://github.com/tensorflow/tensorflow.git

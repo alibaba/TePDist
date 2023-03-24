@@ -1,0 +1,20 @@
+FROM nvidia/cuda:10.1-cudnn8-devel-ubuntu18.04
+
+LABEL maintainer="Alibaba Group"
+
+# Copy and run the install scripts.
+COPY install_packages.sh /install/
+ARG DEBIAN_FRONTEND=noninteractive
+RUN /install/install_packages.sh
+
+# Set up the master bazelrc configuration file.
+COPY .bazelrc /etc/bazel.bazelrc
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64
+ENV PYTHONDONTWRITEBYTECODE 1
+
+# Configure the build for our CUDA configuration.
+ENV TF_NEED_CUDA 1
+ENV TF_CUDA_VERSION 10
+ENV TF_NCCL_VERSION 2.8.3
+ENV TF_CUDNN_VERSION 8.0
+ENV TF_CUDA_COMPUTE_CAPABILITIES 3.5,7.0
