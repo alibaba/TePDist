@@ -1,0 +1,29 @@
+#!/bin/bash
+# Copyright 2023 Alibaba Group Holding Limited. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# =============================================================================
+
+TF_NEED_CUDA=1 \
+TF_CUDA_VERSION=${TF_CUDA_VERSION:-11} \
+TF_NCCL_VERSION=${TF_NCCL_VERSION:-2.8.3} \
+TF_CUDNN_VERSION=${TF_CUDNN_VERSION:-8} \
+TF_CUDA_CLANG=0 \
+TF_ENABLE_XLA=1 \
+TF_CUDA_COMPUTE_CAPABILITIES=${TF_CUDA_COMPUTE_CAPABILITIES:-"3.5,7.0,8.0"} \
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64:/usr/local/cuda/extras/CUPTI/lib64 \
+bazel build -c opt --config=cuda --define=with_xla_support=true --cxxopt=-std=c++14 --host_cxxopt=-std=c++14 --experimental_repo_remote_exec --verbose_failures --spawn_strategy=standalone -s //tensorflow/tools/pip_package:build_pip_package 
+
+echo "Build source Successfully then build tensorflow.whl"
+
+./bazel-bin/tensorflow/tools/pip_package/build_pip_package ./tensorflow_whl/

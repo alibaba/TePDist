@@ -1,0 +1,47 @@
+{
+    "preprocess_config": {
+      "preprocess_batch_size": 256,
+      "input_schema": "input_ids:int:1024,input_masks:int:1024",
+      "first_sequence": "text"
+    },
+    "model_config": {
+      "model_type": "gpt",
+      "pretrain_model_name_or_path": "./pretrain_data/",
+      "task_types": "lm",
+      "max_patch_position_embeddings": 16,
+      "patch_feature_size": 2048,
+      "vocab_size": 50257,
+      "hidden_size": 1024,
+      "intermediate_size": 4096,
+      "num_hidden_layers": 24,
+      "max_position_embeddings": 1024,
+      "num_attention_heads": 16,
+      "attention_head_size": 64,
+      "type_vocab_size": 2,
+      "local_dispatch": false,
+      "activation_fn": "gelu",
+      "loss_coef": 1e-2,
+      "attention_probs_dropout_prob": 0.0,
+      "hidden_dropout_prob": 0.0,
+      "is_training": true
+    },
+    "train_config": {
+      "train_input_fp": "./pretrain_data/train_list_files",
+      "train_batch_size": 1,
+      "save_steps": 10000,
+      "num_epochs": 1,
+      "model_dir": "./pretrain_data/ckpt",
+      "optimizer_config": {
+        "optimizer": "adam",
+        "weight_decay_ratio": 0.01,
+        "warmup_ratio": 0.01,
+        "learning_rate": 1e-4,
+        "gradient_clip": "global",
+        "clip_norm_value": 1.0
+      }
+    },
+    "evaluate_config": {
+      "eval_input_fp": null,
+      "eval_batch_size": 1
+    }
+  }

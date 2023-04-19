@@ -1,0 +1,4 @@
+build --repo_env TF_NEED_CUDA="1"
+
+build:cuda --crosstool_top=@local_config_cuda//crosstool:toolchain
+build:cuda --define=using_cuda=true --define=using_cuda_nvcc=true

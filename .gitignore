@@ -1,0 +1,16 @@
+*.pyc
+*.so
+*.egg-info
+.ipynb_checkpoints
+/bazel-*
+.DS_Store
+build/
+dist/
+.mypy_cache/
+.pytype/
+docs/notebooks/.ipynb_checkpoints/
+docs/_autosummary
+.idea
+.vscode
+venv/
+jax.iml
