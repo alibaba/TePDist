@@ -15,7 +15,7 @@ TePDist system is now developing upon an previous version of community TensorFlo
 
 **TePDist has chosen HLO as the input IR for distributed strategy planning.** The largest models we have seen contain tens of thousands of HLO instructions. Our system can easily handle this scale. At the HLO level, the connections between instructions are sparse. Most instructions read only one or two other instructions although the instructions could be more than then thousands. For SPMD strategy exploration, the cost of distributed communication comes from the connections between these instructions. The sparsity of the connections give TePDist the opportunity in exploring strategies on HLO.
 
-**TePDist's distributed strategy exploration is fully automated.** TePDist's automatic planned strategies can cover all kinds of current knowning parallel schems, such as Data parallel (including token parallel), Model parallel (e.g, sharding or Zero) and Pipeline parallel. Of course, TePDist also allows users to intervene in strategy exploration through annotation.
+**TePDist's distributed strategy exploration is fully automated.** TePDist's automatic planned strategies can cover all kinds of current known parallel schemes, such as Data parallel (including token parallel), Model parallel (e.g, sharding or Zero) and Pipeline parallel. Of course, TePDist also allows users to intervene in strategy exploration through annotation.
 
 **TePDist has reasonably decomposed the strategy exploration problem.** TePDist uses various methods to decompose the strategy exploration problem into optimization sub-problems and use various algorithms to solve them separately, effectively managing the complexity of the problem. In summary, TePDist partitions the entire graph into subgraphs based on critical nodes (see the paper for more details). Within the subgraph, cones are further partitioned. Between subgraphs, dynamic programming algorithms are used, while ILP algorithms are used between cones within the subgraph.
 
@@ -32,11 +32,18 @@ Before using TePDist, we need to prepare its running environment, which is compo
 
 To prepare such environment, we could follow two ways introduced below. The 'docker' tool should be installed onto the physical machine OS. Since we are supposed to use GPU as training resources, the CUDA driver and nvidia-docker tool should also be installed for convienence.
 
-### A. Download the prebuild docker (will update later).
+> Since we need to use GPU device and CUDA environment inside the docker, it is also recommended that to install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) to get better experience with GPU docker environment.
 
-The prebuild docker installed with TePDist server and client could be download from the Docker Hub:
+### A. Download the prebuild docker.
 
-> \<To put the Docker pull address later\>
+The prebuild docker installed with TePDist server and client could be pulled down and restarted from the [Docker Hub repository](https://hub.docker.com/r/tepdist/tepdist-dev/) with command:
+```shell
+[host]$ sudo docker pull tepdist/tepdist-dev:latest.cuda11
+[host]$ sudo nvidia-docker run --net=host --ipc=host -it --name tepdist_run tepdist-dev:latest.cuda11 /bin/bash
+```
+
+A copy of TePDist source code is stored in the '/root/TePDist' directory inside the developing docker, and the compiled server binary is under the 'tf\_tepdist/bazel-bin/tensorflow/compiler/xla/rpc' sub-directory. The customized Tensorflow frontend is installed inside under the default Python3 environment.
+
 
 ### B. Build the developing docker and construct TePDist runtime from source code.
 
@@ -77,7 +84,7 @@ If no errors were found during above steps, we could try to run the basic exampl
 
 ### Server Starting
 
-We need to build a json file to describe the running resouces, both under single machine case or multi-node cluster case. The templates are put under 'tf\_tepdist' directory. Just chose one and modify it like below:
+We need to build a json file to describe the running resources, both under single machine case or multi-node cluster case. The templates are put under 'tf\_tepdist' directory. Just chose one and modify it like below:
 > Suppose the config name is 'one\_node.json'.
 ```json
 {
